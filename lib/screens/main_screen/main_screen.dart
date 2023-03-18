@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noteapp/Bloc/tab.dart';
-import 'package:noteapp/Screen/settings.dart';
-import 'package:noteapp/Screen/to_do_app.dart';
-import '../Widget/todo_widget.dart';
-import 'new_and_update_note.dart';
-import 'note/note_all.dart';
+import 'package:noteapp/screens/main_screen/setting_page/settings.dart';
+import '../todo/to_do_app.dart';
+import '../todo/widget/todo_widget.dart';
+import '../note/new_and_update_note.dart';
+import '../note/note_all.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -44,7 +44,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                         ? Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => NewandUpdateNotes(),
+                              builder: (context) => NewAndUpdateNotes(),
                             ),
                           )
                         : showModalBottomSheet(
@@ -105,7 +105,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                   controller: bartabcontroller,
                   children: const [
                     Notes(),
-                    Search(),
+                    TodoPage(),
                   ],
                 ),
               )

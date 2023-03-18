@@ -1,30 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../Bloc/note_bloc.dart';
-import '../Models/note_list.dart';
+import 'package:noteapp/screens/note/db/db_modals/db_modal.dart';
+import 'package:noteapp/screens/note/db/database_service_noteapp.dart';
+import 'note_bloc/note_bloc.dart';
+import 'models/note_list.dart';
 
-class NewandUpdateNotes extends StatefulWidget {
-  NewandUpdateNotes({Key? key, this.des, this.titlE, this.index}) : super(key: key);
+class NewAndUpdateNotes extends StatefulWidget {
+  NewAndUpdateNotes({Key? key, this.des, this.titlee, this.index}) : super(key: key);
 
   String? des;
-  String? titlE;
+  String? titlee;
   int? index;
 
   @override
-  State<NewandUpdateNotes> createState() => _NewandUpdateNotesState();
+  State<NewAndUpdateNotes> createState() => _NewAndUpdateNotesState();
 }
 
-class _NewandUpdateNotesState extends State<NewandUpdateNotes> {
+class _NewAndUpdateNotesState extends State<NewAndUpdateNotes> {
   TextEditingController title = TextEditingController();
   TextEditingController description = TextEditingController();
 
   @override
   void initState() {
-    // TODO: implement initState
-    if(widget.des != null){
+    if (widget.des != null) {
       setState(() {
         description.text = widget.des!;
-        title.text = widget.titlE!;
+        title.text = widget.titlee!;
       });
     }
     super.initState();
@@ -32,7 +33,6 @@ class _NewandUpdateNotesState extends State<NewandUpdateNotes> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     description.clear();
     title.clear();
     super.dispose();
@@ -52,28 +52,31 @@ class _NewandUpdateNotesState extends State<NewandUpdateNotes> {
         backgroundColor: Colors.transparent,
         actions: [
           GestureDetector(
-            onTap: () {
+            onTap: () async {
               if (description.text.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              } else if(widget.index!=null){
-                 context.read<NoteAppCubit>().updateNote(note: NoteList(title: title.text, description: description.text), index: widget.index!);
-                 Navigator.pop(context);
-
-                 return;
-              }else {
-                context.read<NoteAppCubit>().addNote(
-                  title: NoteList(
+              } else if (widget.index != null) {
+                context.read<NoteAppCubit>().updateNote(note: NoteModel(title: title.text, description: description.text), index: widget.index!);
+                Navigator.pop(context);
+                return;
+              } else {
+                DatabaseService().create(
+                  DatabaseModel(
                     title: title.text.trim(),
                     description: description.text.trim(),
                   ),
                 );
+
                 description.clear();
                 title.clear();
+                context.read<NoteAppCubit>().addNote();
                 Navigator.pop(context);
               }
-
             },
-            child: const Icon(Icons.check,color: Colors.black,),
+            child: const Icon(
+              Icons.check,
+              color: Colors.black,
+            ),
           ),
           const SizedBox(width: 15),
         ],
@@ -89,7 +92,7 @@ class _NewandUpdateNotesState extends State<NewandUpdateNotes> {
                 keyboardType: TextInputType.multiline,
                 textInputAction: TextInputAction.newline,
                 maxLines: null,
-                controller:title,
+                controller: title,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Add Title',
@@ -104,7 +107,7 @@ class _NewandUpdateNotesState extends State<NewandUpdateNotes> {
                 keyboardType: TextInputType.multiline,
                 textInputAction: TextInputAction.newline,
                 maxLines: null,
-                controller:description ,
+                controller: description,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Add Description',

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:noteapp/Models/Settings/style.dart';
+import 'package:noteapp/screens/main_screen/setting_page/models/style.dart';
 
-import '../Models/Settings/cloud_services.dart';
+import 'models/cloud_services.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
