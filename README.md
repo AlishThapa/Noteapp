@@ -1,6 +1,7 @@
 # noteapp
 
-A new Flutter project.
+A note app ; also a todo app, made using dart, State management : Bloc (Cubit) and Sqflite as database.;
+A simple design with tab bar to toggle between a notes and todos. 
 
 ## Getting Started
 
